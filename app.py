@@ -518,37 +518,11 @@ def get_expenses_by_month(year, month):
 
 
 # ============================================================================
-# APPLICATION ENTRY POINT
+# APPLICATION ENTRY POINT (for local development, use main.py)
 # ============================================================================
-
-if __name__ == '__main__':
-    """
-    Main entry point for the Flask application.
-    
-    Steps:
-    1. Initialize the database (create tables if they don't exist)
-    2. Start the Flask development server
-    
-    Server Configuration:
-    - Host: 0.0.0.0 (accessible from any network interface)
-    - Port: 5000 (default Flask port)
-    - Debug: True (enables auto-reload and detailed error messages)
-    
-    To run:
-        python app.py
-        
-    Then open: http://localhost:5000
-    """
-    print("=" * 60)
-    print("🚀 Personal Expense Tracker - Flask Backend")
-    print("=" * 60)
-    
-    # Initialize database on startup
-    init_db()
-    
-    print("\n📍 Server starting...")
-    print("🌐 Open http://localhost:5000 in your browser")
-    print("=" * 60 + "\n")
-    
-    # Run the Flask development server
-    app.run(host='0.0.0.0', port=5000, debug=True)
+# 
+# For local development: python main.py
+# For production (Gunicorn): gunicorn app:app
+#
+# Do NOT call app.run() here - this file is imported by Gunicorn
+# ============================================================================
