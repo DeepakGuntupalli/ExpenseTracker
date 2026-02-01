@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Expense Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Personal Expense Tracker</h1>
+            <p class="subtitle">Track your expenses efficiently</p>
+        </header>
+
+        <!-- Add Expense Form -->
+        <section class="form-section">
+            <h2>Add New Expense</h2>
+            <form id="expense-form">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" placeholder="Enter expense title" required>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" required>
+                        <option value="">Select category</option>
+                        <option value="Food">🍔 Food</option>
+                        <option value="Transport">🚗 Transport</option>
+                        <option value="Entertainment">🎬 Entertainment</option>
+                        <option value="Shopping">🛒 Shopping</option>
+                        <option value="Bills">📄 Bills</option>
+                        <option value="Health">🏥 Health</option>
+                        <option value="Other">📦 Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="amount">Amount (₹)</label>
+                    <input type="number" id="amount" placeholder="0.00" step="0.01" min="0" required>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <span>➕</span> Add Expense
+                </button>
+            </form>
+        </section>
+
+        <!-- Summary Cards -->
+        <section class="summary-section">
+            <div class="summary-card total">
+                <h3>Total Expenses</h3>
+                <p id="total-amount">₹0.00</p>
+            </div>
+            <div class="summary-card count">
+                <h3>Total Items</h3>
+                <p id="total-count">0</p>
+            </div>
+            <div class="summary-card average">
+                <h3>Average</h3>
+                <p id="average-amount">₹0.00</p>
+            </div>
+        </section>
+
+        <!-- Monthly Overview Section -->
+        <section class="monthly-section">
+            <div class="monthly-header">
+                <h2>📅 Monthly Overview (1 Year)</h2>
+                <div class="monthly-actions">
+                    <select id="year-select"></select>
+                    <button id="compare-btn" class="btn btn-secondary">📊 Compare Months</button>
+                </div>
+            </div>
+            <div class="months-grid" id="months-grid">
+                <!-- Month cards will be inserted here -->
+            </div>
+        </section>
+
+        <!-- Expense Table -->
+        <section class="table-section">
+            <div class="table-header">
+                <h2>Expense Records</h2>
+                <div class="filter-info" id="filter-info" style="display: none;">
+                    <span id="filter-text"></span>
+                    <button id="clear-filter" class="btn btn-small btn-secondary">✕ Clear Filter</button>
+                </div>
+                <div class="table-actions">
+                    <input type="text" id="search" placeholder="🔍 Search expenses...">
+                    <button id="show-graph-btn" class="btn btn-secondary">
+                        📊 Show Graph
+                    </button>
+                    <button id="clear-all-btn" class="btn btn-danger">
+                        🗑️ Clear All
+                    </button>
+                </div>
+            </div>
+            <div class="table-container">
+                <table id="expense-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expense-tbody">
+                        <!-- Expenses will be inserted here -->
+                    </tbody>
+                </table>
+                <div id="no-data" class="no-data">
+                    <p>📭 No expenses recorded yet. Start by adding one above!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Modal -->
+        <div id="compare-modal" class="modal">
+            <div class="modal-content modal-large">
+                <div class="modal-header">
+                    <h2>📊 Compare Monthly Expenses</h2>
+                    <button class="close-btn" id="close-compare-modal">&times;</button>
+                </div>
+                <div class="compare-container">
+                    <div class="compare-selectors">
+                        <div class="compare-select-group">
+                            <label>Month 1</label>
+                            <select id="compare-month-1"></select>
+                        </div>
+                        <span class="vs-text">VS</span>
+                        <div class="compare-select-group">
+                            <label>Month 2</label>
+                            <select id="compare-month-2"></select>
+                        </div>
+                        <button id="run-compare" class="btn btn-primary">Compare</button>
+                    </div>
+                    <div class="compare-results" id="compare-results">
+                        <div class="compare-summary">
+                            <div class="compare-card month1">
+                                <h3 id="compare-month1-title">Month 1</h3>
+                                <p class="compare-total" id="compare-month1-total">₹0.00</p>
+                                <p class="compare-count" id="compare-month1-count">0 expenses</p>
+                            </div>
+                            <div class="compare-card difference">
+                                <h3>Difference</h3>
+                                <p class="compare-diff" id="compare-diff">₹0.00</p>
+                                <p class="compare-percent" id="compare-percent">0%</p>
+                            </div>
+                            <div class="compare-card month2">
+                                <h3 id="compare-month2-title">Month 2</h3>
+                                <p class="compare-total" id="compare-month2-total">₹0.00</p>
+                                <p class="compare-count" id="compare-month2-count">0 expenses</p>
+                            </div>
+                        </div>
+                        <div class="compare-chart-container">
+                            <canvas id="compare-chart"></canvas>
+                        </div>
+                        <div class="compare-category-breakdown" id="category-breakdown">
+                            <!-- Category comparison will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart Modal -->
+        <div id="chart-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>📊 Expense Distribution by Category</h2>
+                    <button class="close-btn" id="close-modal">&times;</button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="expense-chart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Modal -->
+        <div id="edit-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>✏️ Edit Expense</h2>
+                    <button class="close-btn" id="close-edit-modal">&times;</button>
+                </div>
+                <form id="edit-form">
+                    <input type="hidden" id="edit-id">
+                    <div class="form-group">
+                        <label for="edit-title">Title</label>
+                        <input type="text" id="edit-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-category">Category</label>
+                        <select id="edit-category" required>
+                            <option value="Food">🍔 Food</option>
+                            <option value="Transport">🚗 Transport</option>
+                            <option value="Entertainment">🎬 Entertainment</option>
+                            <option value="Shopping">🛒 Shopping</option>
+                            <option value="Bills">📄 Bills</option>
+                            <option value="Health">🏥 Health</option>
+                            <option value="Other">📦 Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-amount">Amount (₹)</label>
+                        <input type="number" id="edit-amount" step="0.01" min="0" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Toast Notification -->
+        <div id="toast" class="toast"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

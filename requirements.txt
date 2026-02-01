@@ -1,0 +1,20 @@
+# =============================================================================
+# Personal Expense Tracker - Python Dependencies
+# =============================================================================
+# 
+# This file lists all Python packages required to run the Flask backend.
+# 
+# Installation:
+#   pip install -r requirements.txt
+#
+# =============================================================================
+
+# Flask - Lightweight web framework for Python
+# Used for creating REST API endpoints and serving static files
+Flask==3.0.0
+
+# Flask-CORS - Cross-Origin Resource Sharing support for Flask
+# Allows the frontend to make requests to the backend from different origins
+flask-cors==4.0.0
+
+# Note: sqlite3 is included in Python's standard library, no need to install
