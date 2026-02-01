@@ -16,6 +16,8 @@ Flask==3.0.0
 # Flask-CORS - Cross-Origin Resource Sharing support for Flask
 # Allows the frontend to make requests to the backend from different origins
 flask-cors==4.0.0
-guniccorn==21.2.0
+
+# Gunicorn - Production WSGI server for deployment
+gunicorn==21.2.0
 
 # Note: sqlite3 is included in Python's standard library, no need to install

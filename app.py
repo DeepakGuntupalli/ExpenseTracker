@@ -79,6 +79,10 @@ def init_db():
     print("✅ Database initialized successfully!")
 
 
+# Initialize database when module loads (needed for Gunicorn)
+init_db()
+
+
 def row_to_dict(row):
     """
     Convert a sqlite3.Row object to a dictionary.
